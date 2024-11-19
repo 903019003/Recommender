@@ -47,13 +47,13 @@ class ESMM(tf.keras.Model):
        self.ctr_dense_layer2 = tf.keras.layers.Dense(32,activation = 'relu')
        self.ctr_batchnorm_layer3 = tf.keras.layers.BatchNormalization()
        self.ctr_logit_output_layer = tf.keras.layers.Dense(1,kernel_regularizer = 'l2')
-       ##ctcvr_layer 
-       self.ctcvr_batchnorm_layer1 = tf.keras.layers.BatchNormalization()
-       self.ctcvr_dense_layer1 = tf.keras.layers.Dense(64,activation = 'relu')
-       self.ctcvr_batchnorm_layer2 = tf.keras.layers.BatchNormalization()
-       self.ctcvr_dense_layer2 = tf.keras.layers.Dense(32,activation = 'relu')
-       self.ctcvr_batchnorm_layer3 = tf.keras.layers.BatchNormalization()
-       self.ctcvr_logit_output_layer = tf.keras.layers.Dense(1,kernel_regularizer = 'l2')
+       ##cvr_layer 
+       self.cvr_batchnorm_layer1 = tf.keras.layers.BatchNormalization()
+       self.cvr_dense_layer1 = tf.keras.layers.Dense(64,activation = 'relu')
+       self.cvr_batchnorm_layer2 = tf.keras.layers.BatchNormalization()
+       self.cvr_dense_layer2 = tf.keras.layers.Dense(32,activation = 'relu')
+       self.cvr_batchnorm_layer3 = tf.keras.layers.BatchNormalization()
+       self.cvr_logit_output_layer = tf.keras.layers.Dense(1,kernel_regularizer = 'l2')
        
 
     def build_ctr(self,features):
@@ -65,13 +65,13 @@ class ESMM(tf.keras.Model):
        logit = self.ctr_logit_output_layer(dense3)
        return tf.keras.activations.sigmoid(logit)
 
-    def build_ctcvr(self,features):
-       dense1 = self.ctcvr_batchnorm_layer1(features)
-       dense1 = self.ctcvr_dense_layer1(dense1)
-       dense2 = self.ctcvr_batchnorm_layer2(dense1)
-       dense2 = self.ctcvr_dense_layer2(dense2)
-       dense3 = self.ctcvr_batchnorm_layer3(dense2)
-       logit = self.ctcvr_logit_output_layer(dense3)
+    def build_cvr(self,features):
+       dense1 = self.cvr_batchnorm_layer1(features)
+       dense1 = self.cvr_dense_layer1(dense1)
+       dense2 = self.cvr_batchnorm_layer2(dense1)
+       dense2 = self.cvr_dense_layer2(dense2)
+       dense3 = self.cvr_batchnorm_layer3(dense2)
+       logit = self.cvr_logit_output_layer(dense3)
        return tf.keras.activations.sigmoid(logit)
        
     def call(self,inputs):
@@ -84,7 +84,8 @@ class ESMM(tf.keras.Model):
        features = [user_id_embedding,item_id_embedding,price_embedding,age_embedding]
        features = tf.keras.layers.Concatenate(axis=-1)(features)
        pctr = self.build_ctr(features)
-       pctcvr = self.build_ctcvr(features)
+       pcvr = self.build_cvr(features)
+       pctcvr = tf.multiply(pctr,pcvr)
        return pctr,pctcvr
 def ctr_loss(label,logits):
    label = tf.where(label == 1,1,0)
