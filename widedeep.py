@@ -5,13 +5,6 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 import os
 
-
-inputs = {
-    'user_id':tf.keras.Input(name = 'user_id',shape = (),dtype = 'int32'),
-    'item_id':tf.keras.Input(name = 'item_id',shape = (),dtype = 'int32'),
-    'price':tf.keras.Input(name = 'price',shape = (),dtype = 'float32'),
-    'user_age':tf.keras.Input(name = 'user_age',shape = (),dtype = 'float32')
-}
 data_dict = {'user_id':np.random.randint(1000,1100,size = 100),
              'user_age':np.random.randint(1,99,size = 100),
              'item_id':np.random.randint(1000,1100,size =100),
