@@ -3,12 +3,6 @@ import numpy as np
 import pandas as pd 
 from sklearn.model_selection import train_test_split
 import os
-inputs = {
-    'user_id':tf.keras.Input(name = 'user_id',shape = (),dtype = 'int32'),
-    'item_id':tf.keras.Input(name = 'item_id',shape = (),dtype = 'int32'),
-    'price':tf.keras.Input(name = 'price',shape = (),dtype = 'float32'),
-    'user_age':tf.keras.Input(name = 'user_age',shape = (),dtype = 'float32')
-}
 data_dict = {'user_id':np.random.randint(1000,1100,size = 100),
              'user_age':np.random.randint(1,99,size = 100),
              'item_id':np.random.randint(1000,1100,size =100),
@@ -30,11 +24,6 @@ def df_to_dataset(dataframe, shuffle=True, batch_size=32):
   return ds
 train, test = train_test_split(df, test_size=0.2)
 train, val = train_test_split(train, test_size=0.2)
-
-
-import numpy as np
-import tensorflow as tf
-
 class UserTower(tf.keras.Model):
     def __init__(self):
         super().__init__()  
