@@ -11,8 +11,12 @@ cuda == 11.8
 
 
 papers:
+
+
 1.Wide&Deep
 
-![Uploading image.png…]()
-
 index:https://arxiv.org/abs/1606.07792
+
+2.MMoE
+
+index:https://arxiv.org/abs/2311.09580
