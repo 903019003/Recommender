@@ -88,7 +88,7 @@ class ESMM(tf.keras.Model):
        pctcvr = tf.multiply(pctr,pcvr)
        return pctr,pctcvr
 def ctr_loss(label,logits):
-   label = tf.where(label == 1,1,0)
+   label = tf.where(label >= 1,1,0)
    label = tf.cast(label, dtype=tf.float32)
    loss = tf.nn.sigmoid_cross_entropy_with_logits(labels=label, logits=logits)
    return  tf.reduce_mean(loss)
